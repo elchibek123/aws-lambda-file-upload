@@ -11,7 +11,7 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
 
   # environment {
   #   variables = {
-  #     SNS_TOPIC_ARN = "${aws_sns_topic.sns_user_login.arn}"
+  #     SNS_TOPIC_ARN = "${aws_sns_topic.sns.arn}"
   #   }
   # }
 
@@ -22,10 +22,10 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
   depends_on = [aws_iam_role_policy_attachment.lambda_role_policy_attachment]
 }
 
-# resource "aws_lambda_permission" "logging" {
-#   statement_id  = "AllowExecutionFromCloudWatch"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.lambda_function_file_upload.function_name
-#   principal     = "logs.amazonaws.com"
-#   source_arn    = "${aws_cloudwatch_log_group.lambda_log.arn}:*"
-# }
+resource "aws_lambda_permission" "lambda_permission_api_gateway" {
+  statement_id  = "AllowMyAPIInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_function_file_upload.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn = "${aws_api_gateway_rest_api.MyAPI.execution_arn}/*"
+}
