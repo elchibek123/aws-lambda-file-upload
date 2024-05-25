@@ -20,3 +20,5 @@ data "archive_file" "lambda" {
 data "aws_iam_policy" "s3_policy" {
   name = "AmazonS3FullAccess"
 }
+
+data "aws_caller_identity" "current" {}
