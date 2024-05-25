@@ -1,0 +1,11 @@
+variable "region" {
+  description = "AWS Region"
+  type        = string
+  default     = "us-east-1"
+}
+
+variable "env" {
+  description = "Environment"
+  type        = string
+  default     = "sandbox"
+}
