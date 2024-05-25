@@ -4,7 +4,7 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
   description   = "This function is for uploading files to S3 bucket."
   role          = aws_iam_role.lambda_role.arn
   architectures = ["x86_64"]
-  handler       = "file_upload.lambda_handler"
+  handler       = "upload_binary.lambda_handler"
   runtime       = "python3.11"
   package_type  = "Zip"
   publish       = false
