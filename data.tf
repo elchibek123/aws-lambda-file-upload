@@ -21,4 +21,8 @@ data "aws_iam_policy" "s3_policy" {
   name = "AmazonS3FullAccess"
 }
 
+data "aws_iam_policy" "cw_logs_policy" {
+  name = "CloudWatchLogsFullAccess"
+}
+
 data "aws_caller_identity" "current" {}

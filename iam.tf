@@ -11,3 +11,8 @@ resource "aws_iam_role_policy_attachment" "lambda_role_policy_attachment" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = data.aws_iam_policy.s3_policy.arn
 }
+
+resource "aws_iam_role_policy_attachment" "cw_logs_policy" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = data.aws_iam_policy.cw_logs_policy.arn
+}
