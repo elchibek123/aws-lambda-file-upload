@@ -13,10 +13,10 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
     Name = "file_upload"
   }
 
-  depends_on = [
-    aws_iam_role_policy_attachment.s3_policy_attach,
-    aws_iam_role_policy_attachment.cw_logs_policy_attach
-  ]
+  # depends_on = [
+  #   aws_iam_role_policy_attachment.s3_policy_attach,
+  #   aws_iam_role_policy_attachment.cw_logs_policy_attach
+  # ]
 }
 
 resource "aws_lambda_permission" "lambda_permission_api_gateway" {
