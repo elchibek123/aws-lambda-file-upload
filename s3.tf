@@ -45,7 +45,8 @@ resource "aws_s3_bucket_policy" "bucket_policy_1" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "*"
+            "*",
+            "arn:aws:iam::306017213337:role/tfc-${var.env}-role"
           ]
         }
         Action = [
