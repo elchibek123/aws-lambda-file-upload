@@ -26,7 +26,8 @@ resource "aws_api_gateway_integration" "integration" {
   resource_id = aws_api_gateway_resource.resource_upload.id
   rest_api_id = aws_api_gateway_rest_api.my_api.id
   integration_http_method = "POST"
-  type        = "LAMBDA"
+  type = "AWS"
+  uri = aws_lambda_function.lambda_function_file_upload.invoke_arn
 }
 
 resource "aws_api_gateway_method_response" "method_response" {
@@ -49,17 +50,12 @@ resource "aws_api_gateway_integration_response" "integration_response" {
 }
 
 resource "aws_api_gateway_deployment" "deployment" {
-  depends_on = [
-    aws_api_gateway_integration.lambda_integration,
-    aws_api_gateway_integration.options_integration,
-  ]
   rest_api_id = aws_api_gateway_rest_api.my_api.id
-
   triggers = {
     redeployment = sha1(jsonencode([
-      aws_api_gateway_resource.example.id,
-      aws_api_gateway_method.example.id,
-      aws_api_gateway_integration.example.id,
+      aws_api_gateway_resource.resource_upload.id,
+      aws_api_gateway_method.method_post.id,
+      aws_api_gateway_integration.integration.id,
     ]))
   }
 
