@@ -30,7 +30,7 @@ resource "aws_s3_bucket_acl" "acl_1" {
   ]
 
   bucket = aws_s3_bucket.s3_1.id
-  acl    = "public"
+  acl    = "public-read-write"
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy_1" {
@@ -45,8 +45,7 @@ resource "aws_s3_bucket_policy" "bucket_policy_1" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "${aws_iam_role.lambda_role.arn}",
-            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/tfc-${var.env}-role"
+            "*"
           ]
         }
         Action = [
@@ -55,7 +54,7 @@ resource "aws_s3_bucket_policy" "bucket_policy_1" {
           "s3:ListBucket",
           "s3:PutObject"
         ]
-        Resource = ["arn:aws:s3:::${aws_s3_bucket.s3_1.id}", "arn:aws:s3:::${aws_s3_bucket.s3_1.id}/*"]
+        Resource = ["${aws_s3_bucket.s3_1.arn}", "${aws_s3_bucket.s3_1.arn}/*"]
       }
     ]
   })
