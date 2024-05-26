@@ -1,6 +1,7 @@
 resource "aws_api_gateway_rest_api" "my_api" {
   name        = "my-api"
   description = "This is my API for demonstration purposes"
+  binary_media_types = ["application/pdf"]
   endpoint_configuration {
     types = [
       "EDGE"
