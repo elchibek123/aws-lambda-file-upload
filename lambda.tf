@@ -9,12 +9,6 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
   package_type  = "Zip"
   publish       = false
 
-  # environment {
-  #   variables = {
-  #     SNS_TOPIC_ARN = "${aws_sns_topic.sns.arn}"
-  #   }
-  # }
-
   tags = {
     Name = "file_upload"
   }
