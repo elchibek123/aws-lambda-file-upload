@@ -28,6 +28,14 @@ resource "aws_api_gateway_integration" "integration" {
   integration_http_method = "POST"
   type = "AWS"
   uri = aws_lambda_function.lambda_function_file_upload.invoke_arn
+  passthrough_behavior    = "WHEN_NO_TEMPLATES"
+  request_templates = {
+    "application/pdf" = <<EOF
+      {
+        "content": "$input.body"
+      }
+    EOF
+  }
 }
 
 resource "aws_api_gateway_method_response" "method_response" {
