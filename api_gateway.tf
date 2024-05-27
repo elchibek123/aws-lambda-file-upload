@@ -31,11 +31,9 @@ resource "aws_api_gateway_integration" "integration" {
   uri                     = aws_lambda_function.lambda_function_file_upload.invoke_arn
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
   request_templates = {
-    "application/pdf" = <<EOF
-{
-    "content": "$input.body"
-}
-EOF
+    "application/pdf" = jsonencode({
+      content = "$input.body"
+    })
   }
 }
 
