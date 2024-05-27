@@ -1,6 +1,6 @@
 resource "aws_api_gateway_rest_api" "my_api" {
-  name        = "my-api"
-  description = "This is my API for demonstration purposes"
+  name               = "myAPI"
+  description        = "This is my API for demonstration purposes"
   binary_media_types = ["application/pdf"]
   endpoint_configuration {
     types = [
@@ -23,12 +23,12 @@ resource "aws_api_gateway_method" "method_post" {
 }
 
 resource "aws_api_gateway_integration" "integration" {
-  http_method = aws_api_gateway_method.method_post.http_method
-  resource_id = aws_api_gateway_resource.resource_upload.id
-  rest_api_id = aws_api_gateway_rest_api.my_api.id
+  http_method             = aws_api_gateway_method.method_post.http_method
+  resource_id             = aws_api_gateway_resource.resource_upload.id
+  rest_api_id             = aws_api_gateway_rest_api.my_api.id
   integration_http_method = "POST"
-  type = "AWS"
-  uri = aws_lambda_function.lambda_function_file_upload.invoke_arn
+  type                    = "AWS"
+  uri                     = aws_lambda_function.lambda_function_file_upload.invoke_arn
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
   request_templates = {
     "application/pdf" = <<EOF

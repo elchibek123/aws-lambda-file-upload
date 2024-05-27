@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "s3_1" {
   bucket        = "private-${var.env}-${var.region}-s3-bucket-001"
-  force_destroy = false
+  force_destroy = true
 
   tags = {
     Name = "private-${var.env}-${var.region}-s3-bucket-001"
@@ -17,10 +17,10 @@ resource "aws_s3_bucket_ownership_controls" "oc_1" {
 
 resource "aws_s3_bucket_public_access_block" "s3_blocking_1" {
   bucket                  = aws_s3_bucket.s3_1.id
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 resource "aws_s3_bucket_acl" "acl_1" {
@@ -30,7 +30,7 @@ resource "aws_s3_bucket_acl" "acl_1" {
   ]
 
   bucket = aws_s3_bucket.s3_1.id
-  acl    = "public-read-write"
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy_1" {
@@ -45,7 +45,8 @@ resource "aws_s3_bucket_policy" "bucket_policy_1" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "*"
+            "${aws_iam_role.lambda_role.arn}",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/tfc-${var.env}-role"
           ]
         }
         Action = [
