@@ -7,7 +7,7 @@ resource "aws_iam_role" "lambda_role" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "s3_policy_attach" {
+resource "aws_iam_role_policy_attachment" "lambda_execute_policy_attach" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = data.aws_iam_policy.lambda_execute_policy.arn
 }

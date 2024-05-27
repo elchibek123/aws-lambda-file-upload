@@ -14,7 +14,7 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
   }
 
   depends_on = [
-    aws_iam_role_policy_attachment.lambda_execute_policy_policy_attach
+    aws_iam_role_policy_attachment.lambda_execute_policy_attach
   ]
 }
 
