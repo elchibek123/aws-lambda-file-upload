@@ -1,6 +1,6 @@
 resource "aws_lambda_function" "lambda_function_file_upload" {
   filename      = "${path.module}/python.zip"
-  function_name = "file_upload"
+  function_name = "fileUpload"
   description   = "This function is for uploading files to S3 bucket."
   role          = aws_iam_role.lambda_role.arn
   architectures = ["x86_64"]
@@ -10,7 +10,7 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
   publish       = false
 
   tags = {
-    Name = "file_upload"
+    Name = "fileUpload"
   }
 
   depends_on = [
