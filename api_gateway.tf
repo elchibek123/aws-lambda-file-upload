@@ -32,7 +32,7 @@ resource "aws_api_gateway_integration" "integration" {
   passthrough_behavior    = "WHEN_NO_TEMPLATES"
   request_templates = {
     "application/pdf" = jsonencode({
-      "content": "$input.body"
+      "content" : "$input.body"
     })
   }
 }
