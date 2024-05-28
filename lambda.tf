@@ -11,7 +11,7 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
 
   environment {
     variables = {
-      BUCKET_NAME = "${aws_s3_bucket.s3_1.name}"
+      BUCKET_NAME = "${aws_s3_bucket.s3_1.id}"
     }
   }
 
