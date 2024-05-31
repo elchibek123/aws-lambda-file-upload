@@ -103,6 +103,9 @@ resource "aws_api_gateway_method" "method_get" {
   http_method   = "GET"
   resource_id   = aws_api_gateway_resource.resource_query.id
   rest_api_id   = aws_api_gateway_rest_api.api_query.id
+  request_parameters = {
+    "method.request.querystring.file" = true
+  }
 }
 
 resource "aws_api_gateway_request_validator" "request_validator_query" {
