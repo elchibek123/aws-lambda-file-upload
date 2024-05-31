@@ -124,9 +124,6 @@ resource "aws_api_gateway_integration" "integration_query" {
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function_query.invoke_arn
-  request_parameters = {
-    "integration.request.path.bucket" = "method.request.path.bucket"
-  }
 }
 
 resource "aws_api_gateway_deployment" "deployment_query" {
