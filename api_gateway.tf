@@ -103,17 +103,10 @@ resource "aws_api_gateway_method" "method_get" {
   http_method   = "GET"
   resource_id   = aws_api_gateway_resource.resource_query.id
   rest_api_id   = aws_api_gateway_rest_api.api_query.id
-  request_validator_id = aws_api_gateway_request_validator.request_validator_query.id
   request_parameters = {
-    "method.request.querystring.file" = true
+    "method.request.querystring.file" = true,
+    "method.request.path.proxy" = true
   }  
-}
-
-resource "aws_api_gateway_request_validator" "request_validator_query" {
-  rest_api_id = aws_api_gateway_rest_api.api_query.id
-  name        = "querystring-header-validator"
-  validate_request_body       = false
-  validate_request_parameters = true
 }
 
 resource "aws_api_gateway_integration" "integration_query" {
@@ -123,25 +116,9 @@ resource "aws_api_gateway_integration" "integration_query" {
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function_query.invoke_arn
-}
-
-resource "aws_api_gateway_method_response" "method_response_query" {
-  http_method = aws_api_gateway_method.method_get.http_method
-  resource_id = aws_api_gateway_resource.resource_query.id
-  rest_api_id = aws_api_gateway_rest_api.api_query.id
-  status_code = "200"
-}
-
-resource "aws_api_gateway_integration_response" "integration_response_query" {
-  http_method = aws_api_gateway_method.method_get.http_method
-  resource_id = aws_api_gateway_resource.resource_query.id
-  rest_api_id = aws_api_gateway_rest_api.api_query.id
-  status_code = aws_api_gateway_method_response.method_response_query.status_code
-
-  depends_on = [
-    aws_api_gateway_method.method_get,
-    aws_api_gateway_integration.integration_query
-  ]
+  request_parameters = {
+    "integration.request.path.proxy" = "method.request.path.proxy"
+  }
 }
 
 resource "aws_api_gateway_deployment" "deployment_query" {
