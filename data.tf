@@ -17,6 +17,12 @@ data "archive_file" "lambda" {
   output_path = "${path.module}/python.zip"
 }
 
+data "archive_file" "lambda_query" {
+  type        = "zip"
+  source_file = "${path.module}/query.py"
+  output_path = "${path.module}/query_python.zip"
+}
+
 data "aws_iam_policy" "lambda_execute_policy" {
   name = "AWSLambdaExecute"
 }

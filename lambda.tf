@@ -5,7 +5,7 @@ resource "aws_lambda_function" "lambda_function_file_upload" {
   role          = aws_iam_role.lambda_role.arn
   architectures = ["x86_64"]
   handler       = "upload_binary.lambda_handler"
-  runtime       = "python3.11"
+  runtime       = "python3.12"
   package_type  = "Zip"
   publish       = false
 
@@ -30,4 +30,38 @@ resource "aws_lambda_permission" "lambda_permission_api_gateway" {
   function_name = aws_lambda_function.lambda_function_file_upload.function_name
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.my_api.execution_arn}/*"
+}
+
+resource "aws_lambda_function" "lambda_function_query" {
+  filename      = "${path.module}/query_python.zip"
+  function_name = "Query"
+  description   = "This function is for queries S3 bucket."
+  role          = aws_iam_role.lambda_role.arn
+  architectures = ["x86_64"]
+  handler       = "query.lambda_handler"
+  runtime       = "python3.12"
+  package_type  = "Zip"
+  publish       = false
+
+  environment {
+    variables = {
+      BUCKET_NAME = "${aws_s3_bucket.s3_1.id}"
+    }
+  }
+
+  tags = {
+    Name = "Query"
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.lambda_execute_policy_attach
+  ]
+}
+
+resource "aws_lambda_permission" "lambda_permission_api_gateway_query" {
+  statement_id  = "AllowMyAPIInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.lambda_function_query.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.api_query.execution_arn}/*"
 }
