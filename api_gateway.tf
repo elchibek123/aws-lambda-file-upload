@@ -103,16 +103,17 @@ resource "aws_api_gateway_method" "method_get" {
   http_method   = "GET"
   resource_id   = aws_api_gateway_resource.resource_query.id
   rest_api_id   = aws_api_gateway_rest_api.api_query.id
+  request_validator_id = aws_api_gateway_request_validator.request_validator_query.id
   request_parameters = {
     "method.request.querystring.file" = true
-    # "method.request.path.bucket" = true
+    "method.request.path.bucket" = true
   }  
 }
 
 resource "aws_api_gateway_request_validator" "request_validator_query" {
   rest_api_id = aws_api_gateway_rest_api.api_query.id
-  name        = "Validate query string parameters and headers"
-  validate_request_body       = true
+  name        = "Validation"
+  validate_request_body       = false
   validate_request_parameters = true
 }
 
