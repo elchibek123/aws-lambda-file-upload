@@ -105,7 +105,7 @@ resource "aws_api_gateway_method" "method_get" {
   rest_api_id   = aws_api_gateway_rest_api.api_query.id
   request_parameters = {
     "method.request.querystring.file" = true,
-    "method.request.path.${aws_api_gateway_resource.resource_query.path}" = true
+    "method.request.path.bucket" = true
   }
 }
 
