@@ -129,7 +129,7 @@ resource "aws_api_gateway_integration_response" "integration_response_query" {
   status_code = aws_api_gateway_method_response.method_response_query.status_code
 
   depends_on = [
-    aws_api_gateway_method.method_query,
+    aws_api_gateway_method.method_get,
     aws_api_gateway_integration.integration_query
   ]
 }
