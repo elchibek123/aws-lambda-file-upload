@@ -104,9 +104,16 @@ resource "aws_api_gateway_method" "method_get" {
   resource_id   = aws_api_gateway_resource.resource_query.id
   rest_api_id   = aws_api_gateway_rest_api.api_query.id
   request_parameters = {
-    "method.request.querystring.file" = true,
-    "method.request.path.proxy" = true
+    "method.request.querystring.file" = true
+    # "method.request.path.bucket" = true
   }  
+}
+
+resource "aws_api_gateway_request_validator" "request_validator_query" {
+  rest_api_id = aws_api_gateway_rest_api.api_query.id
+  name        = "Validate query string parameters and headers"
+  validate_request_body       = true
+  validate_request_parameters = true
 }
 
 resource "aws_api_gateway_integration" "integration_query" {
@@ -116,9 +123,9 @@ resource "aws_api_gateway_integration" "integration_query" {
   integration_http_method = "GET"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.lambda_function_query.invoke_arn
-  request_parameters = {
-    "integration.request.path.proxy" = "method.request.path.proxy"
-  }
+  # request_parameters = {
+  #   "integration.request.path.proxy" = "method.request.path.proxy"
+  # }
 }
 
 resource "aws_api_gateway_deployment" "deployment_query" {
