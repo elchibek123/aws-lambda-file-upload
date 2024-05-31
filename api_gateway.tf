@@ -35,6 +35,10 @@ resource "aws_api_gateway_integration" "integration" {
       "content" : "$input.body"
     })
   }
+
+  lifecycle {
+    ignore_changes = [request_templates]
+  }
 }
 
 resource "aws_api_gateway_method_response" "method_response" {
