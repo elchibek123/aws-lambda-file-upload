@@ -84,7 +84,7 @@ resource "aws_api_gateway_stage" "stage" {
 resource "aws_api_gateway_rest_api" "api_query" {
   name               = "query"
   description        = "This API is for demonstration purposes"
-  binary_media_types = [""]
+  binary_media_types = ["*/*"]
   endpoint_configuration {
     types = [
       "EDGE"
