@@ -19,7 +19,7 @@ data "archive_file" "lambda" {
 
 data "archive_file" "lambda_query" {
   type        = "zip"
-  source_file = "${path.module}/query.py"
+  source_file = "${path.module}/s3_presigned_url.py"
   output_path = "${path.module}/query_python.zip"
 }
 

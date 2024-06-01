@@ -34,23 +34,17 @@ resource "aws_lambda_permission" "lambda_permission_api_gateway" {
 
 resource "aws_lambda_function" "lambda_function_query" {
   filename      = "${path.module}/query_python.zip"
-  function_name = "Query"
-  description   = "This function is for queries S3 bucket."
+  function_name = "s3-presigned-url"
+  description   = "This function is for S3 bucket queries."
   role          = aws_iam_role.lambda_role.arn
   architectures = ["x86_64"]
-  handler       = "query.lambda_handler"
+  handler       = "s3_presigned_url.lambda_handler"
   runtime       = "python3.12"
   package_type  = "Zip"
   publish       = false
 
-  environment {
-    variables = {
-      BUCKET_NAME = "${aws_s3_bucket.s3_1.id}"
-    }
-  }
-
   tags = {
-    Name = "Query"
+    Name = "s3-presigned-url"
   }
 
   depends_on = [
